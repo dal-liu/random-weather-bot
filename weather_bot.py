@@ -116,7 +116,7 @@ if __name__ == "__main__":
 
     while True:
         if len(status) <= 280:
-            print(status)
+            tweet(status)
             break
         else:
             print("Attempted an invalid tweet, retrying...")
