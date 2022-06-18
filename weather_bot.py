@@ -106,9 +106,13 @@ def tweet(status):
     client.create_tweet(text=status)
 
 
+def length_is_valid(status):
+    return len(status) <= 280
+
+
 if __name__ == "__main__":
-    status = create_status(get_weather_dict(get_city_id()))
     while True:
-        if len(status) <= 280:
+        status = create_status(get_weather_dict(get_city_id()))
+        if length_is_valid(status):
             tweet(status)
             break
