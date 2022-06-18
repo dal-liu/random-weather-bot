@@ -21,7 +21,6 @@ WEATHER_API_KEY = os.environ['WEATHER_API_KEY']
 def get_city_id():
     with open("city.list.json", "r", encoding="utf-8") as f: # reset file name
         cities = json.load(f)
-    
     city = random.choice(cities)
     return city['id']
 
@@ -29,7 +28,6 @@ def get_city_id():
 def get_weather_dict(city_id):
     BASE_URL = "https://api.openweathermap.org/data/2.5/weather?"
     url = f"{BASE_URL}id={city_id}&appid={WEATHER_API_KEY}&units=metric"
-
     return requests.get(url).json()
 
 
@@ -42,7 +40,6 @@ def get_condition(weather_id, description):
         description = description.replace("tornado", "tornadoes")
     elif weather_id == 801:
         description = f"a {description}"
-    
     return f"with {description}"
 
 
@@ -67,7 +64,6 @@ def get_emoji(weather_main, dt, sunrise, sunset):
                 emoji = "\U0001F319"
         case _:
             emoji = "\U0001F32B"
-    
     return emoji
 
 
@@ -75,7 +71,6 @@ def get_country_name(country):
     with open("country codes.csv", "r") as csv_file: # reset file name
         reader = csv.reader(csv_file)
         countries_dict = {row[0]:row[1] for row in reader}
-
     return countries_dict[country]
 
 
@@ -113,10 +108,7 @@ def tweet(status):
 
 if __name__ == "__main__":
     status = create_status(get_weather_dict(get_city_id()))
-
     while True:
         if len(status) <= 280:
             tweet(status)
             break
-        else:
-            print("Attempted an invalid tweet, retrying...")
