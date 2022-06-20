@@ -87,15 +87,16 @@ def create_status(weather):
     country_code = weather['sys']['country']
     country = get_country_name(country_code)
 
-    unix_time = weather['dt'] + weather['timezone']
+    timezone = weather['timezone']
+    unix_time = weather['dt'] + timezone
     local_time_24 = datetime.datetime.utcfromtimestamp(unix_time).strftime("%H:%M")
     local_time_12 = datetime.datetime.utcfromtimestamp(unix_time).strftime("%I:%M %p")
     if local_time_12[0] == "0":
         local_time_12 = local_time_12[1:]
 
     weather_main = weather['weather'][0]['main']
-    sunrise = weather['sys']['sunrise']
-    sunset = weather['sys']['sunset']
+    sunrise = weather['sys']['sunrise'] + timezone
+    sunset = weather['sys']['sunset'] + timezone
     emoji = get_emoji(weather_main, unix_time, sunrise, sunset)
 
     return f"{emoji} It's currently {temp_c}°C / {temp_f}°F {condition} in {name}, {country} as of {local_time_24} / {local_time_12} local time"
